@@ -11,7 +11,6 @@ var ZDMobileInteractor = {
 		ZDMobile.get(helperReqObj);
 	},
 	sendRequest: function (widgetId, promiseId, id, property, formData) {
-		console.log(formData)
 		ZDMobile.request(widgetId, promiseId, id, property, formData);
 	},
 	sendResponseToWidget: function (responseObj) {
@@ -49,7 +48,6 @@ var ZDPromiseQManager = {
 		PromiseQ[widgetID] ? PromiseQ[widgetID][promiseID] = promise : PromiseQ[widgetID] = { [promiseID]: promise };
 	},
 	deletePromise: function (widgetID, promiseID) {
-		console.log('Deleyte called')
 		PromiseQ[widgetID][promiseID] = null;
 	}
 }
@@ -78,10 +76,6 @@ var renderExtension = function (extensionData, widgetID) {
 		if (widgets[i].widgetId == widgetID) {
 			extensionData.manifest.modules.widgets = [widgets[i]];
 			extensionData.location = widgets[i].location;
-			// 	let logoBaseURL = ZApp.GetExtensionBaseURL(extensionData.manifest);
-			// 	let logoUrl = widget.logo ? widget.logo.split("/") : [];
-			// 	logoUrl = logoUrl.splice(1,logoUrl.length).join("/");
-			// 	document.getElementById('widgetlogo').src = logoUrl;
 			document.getElementById('widgettitle').innerText = widgets[i].name
 			break;
 		}
@@ -99,6 +93,12 @@ var renderExtension = function (extensionData, widgetID) {
 
 	// if(!extensionManifest.connectors.length > 0){
 	ZApp.LoadExtension(extensionManifest);
+
+	var logoBaseURL = ZApp.GetExtensionBaseURL(extensionData.manifest);
+	var logoUrl = widget.logo ? widget.logo.split("/") : [];
+	logoUrl = logoUrl.splice(1, logoUrl.length).join("/");
+	document.getElementById('widgetlogo').src = logoBaseURL + '/' + logoUrl;
+
 	ZApp.RenderWidgets(extensionData.location, {});
 	// }else{
 	//   renderAuthorizeUI(extensionManifest, extensionData.location);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <div>
+        <div class="headerDiv">
+            <div class="headerInnerDiv">
+                <div class="headerLogo">
+                    <img id="widgetlogo" src="" class="headerLogo"></div><span class="headerTitle"
+                    id="widgettitle"></span>
+            </div>
+        </div>
+        <div id="root"></div>
+    </div>
+
+
+    <script src='./js/ZDMobile.js'></script>
+    <script src='./js/zframework.js'></script>
+    <script src='./js/zappimpl.js'></script>
+    <script>
+        window.onload = function () {
+            /* Initialize ZApp */
+            var zappsHost = {
+                host: "{{zappid}}.zappsusercontent.com",
+                port: '',
+                path: '/appfiles/{{zappid}}/{{version}}/{{hashkey}}'
+            };
+            ZApp.Bootstrap({
+                RenderHandlers: DeskPluginManager,
+                serverConfig: {
+                    zappsHost: zappsHost
+                },
+                EventListeners: {
+                    DESK_EVENT: function (event) {
+                        return deskEventHandler(event);
+                    }
+                },
+                RequestHandler: ZappImpl.commonRequestHandler
+            });
+
+            /* Request Extension: From Mobile Native */
+            ZDMobile.getExtensionDetails();
+        };
+    </script>
+</body>
+
+</html>

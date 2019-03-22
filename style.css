@@ -15,15 +15,6 @@
 }
 
 @font-face {
-  font-family: Bold;
-  src: url('./fonts/ProximaNova-Bold-webfont.eot');
-  src: url('./fonts/ProximaNova-Bold-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/ProximaNova-Bold-webfont.woff') format('woff'), url('./fonts/ProximaNova-Bold-webfont.ttf') format('truetype'), url('./fonts/ProximaNova-Bold-webfont.svg#Bold') format('svg');
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
-@font-face {
   font-family: Semibold;
   src: url('./fonts/ProximaNova-Sbold-webfont.eot');
   src: url('./fonts/ProximaNova-Sbold-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/ProximaNova-Sbold-webfont.woff') format('woff'), url('./fonts/ProximaNova-Sbold-webfont.ttf') format('truetype'), url('./fonts/ProximaNova-Sbold-webfont.svg#Semibold') format('svg');
@@ -75,7 +66,7 @@
 .headerTitle {
   display: inline-block;
   color: #333;
-  font: 15px 'ProximaNovaLtSemibold', Arial, Helvetica, sans-serif;
+  font: 15px 'Semibold', Arial, Helvetica, sans-serif;
   vertical-align: middle;
   margin-left: 5px;
   text-overflow: ellipsis;

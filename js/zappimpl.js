@@ -3,7 +3,6 @@ var widgetPromiseMapping = {};
 
 ZappImpl = {
 	commonRequestHandler: function (urlObject, promise) {
-		console.log(urlObject)
 		var widget = ZApp.GetWidgetInstance(urlObject.widgetID);
 		var extensionInstance = ZApp.GetExtensionInstance(widget.getExtensionID());
 		ZDPromiseQManager.addPromise(urlObject.widgetID, urlObject.promiseID, promise);
@@ -77,6 +76,7 @@ var DeskPluginManager = {
 				containerElement.setAttribute('id', widgetId + '_frame');
 				containerElement.setAttribute('class', 'iframeMain');
 				containerElement.appendChild(frameElement);
+				document.getElementById('loading').classList.add('hide');
 				document.getElementById('root').appendChild(containerElement);
 			}
 		}

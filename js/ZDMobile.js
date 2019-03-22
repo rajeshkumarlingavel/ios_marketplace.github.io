@@ -71,12 +71,14 @@ var deskEventHandler = function (event) {
 /* Render Extension */
 var renderExtension = function (extensionData, widgetID) {
 	var widgets = extensionData.manifest.modules.widgets;
-
+	var widgetHeaderDetails = {};
 	for (var i = 0; i < widgets.length; i++) {
 		if (widgets[i].widgetId == widgetID) {
 			extensionData.manifest.modules.widgets = [widgets[i]];
 			extensionData.location = widgets[i].location;
-			document.getElementById('widgettitle').innerText = widgets[i].name
+			widgetHeaderDetails.name = widgets[i].name;
+			widgetHeaderDetails.logo = widgets[i].logo;
+			widgetHeaderDetails.manifest = extensionData.manifest;
 			break;
 		}
 	}
@@ -93,17 +95,22 @@ var renderExtension = function (extensionData, widgetID) {
 
 	// if(!extensionManifest.connectors.length > 0){
 	ZApp.LoadExtension(extensionManifest);
-
-	var logoBaseURL = ZApp.GetExtensionBaseURL(extensionData.manifest);
-	var logoUrl = widget.logo ? widget.logo.split("/") : [];
-	logoUrl = logoUrl.splice(1, logoUrl.length).join("/");
-	document.getElementById('widgetlogo').src = logoBaseURL + '/' + logoUrl;
-
+	renderWidgetHeader(widgetHeaderDetails);
 	ZApp.RenderWidgets(extensionData.location, {});
 	// }else{
 	//   renderAuthorizeUI(extensionManifest, extensionData.location);
 	// }
 };
+
+/* Render Widget Header */
+
+var renderWidgetHeader = function (widgetHeaderDetails) {
+	var logoBaseURL = ZApp.GetExtensionBaseURL(widgetHeaderDetails.manifest);
+	var logoUrl = widgetHeaderDetails.logo ? widgetHeaderDetails.logo.split("/") : [];
+	logoUrl = logoUrl.splice(1, logoUrl.length).join("/");
+	document.getElementById('widgetlogo').src = logoBaseURL + '/' + logoUrl;
+	document.getElementById('widgettitle').innerText = widgetHeaderDetails.name;
+}
 
 /* Render Config UI */
 

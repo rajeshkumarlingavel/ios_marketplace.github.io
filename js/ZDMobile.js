@@ -14,9 +14,6 @@ var ZDMobileInteractor = {
 		ZDMobile.request(widgetId, promiseId, id, property, formData);
 	},
 	sendResponseToWidget: function (responseObj) {
-
-		//responseObj = JSON.parse(responseObj);
-
 		var response = {};
 		response[responseObj.property] = responseObj.data;
 		if (responseObj.property == 'database') {
@@ -33,9 +30,7 @@ var ZDMobileInteractor = {
 		}
 	},
 	renderWidget: function (extensionDetails) {
-		// 		extensionDetails = JSON.parse(extensionDetails);
 		renderExtension(extensionDetails.extensionData, extensionDetails.widgetId);
-		// renderExtension(extensionDetails, widgetId)
 	}
 };
 
@@ -93,13 +88,9 @@ var renderExtension = function (extensionData, widgetID) {
 	extensionManifest.installationParams = extensionManifest.config;
 	extensionManifest.extensionType = extensionData.extensionType;
 
-	// if(!extensionManifest.connectors.length > 0){
 	ZApp.LoadExtension(extensionManifest);
 	renderWidgetHeader(widgetHeaderDetails);
 	ZApp.RenderWidgets(extensionData.location, {});
-	// }else{
-	//   renderAuthorizeUI(extensionManifest, extensionData.location);
-	// }
 };
 
 /* Render Widget Header */
@@ -108,46 +99,53 @@ var renderWidgetHeader = function (widgetHeaderDetails) {
 	var logoBaseURL = ZApp.GetExtensionBaseURL(widgetHeaderDetails.manifest);
 	var logoUrl = widgetHeaderDetails.logo ? widgetHeaderDetails.logo.split("/") : [];
 	logoUrl = logoUrl.splice(1, logoUrl.length).join("/");
-	document.getElementById('widgetlogo').src = logoBaseURL + '/' + logoUrl;
-	document.getElementById('widgettitle').innerText = widgetHeaderDetails.name;
+	var headerHtml = `<div class="headerDiv">
+										<div class="headerInnerDiv">
+										<div class="headerLogo">
+										<img id="widgetlogo" src="${logoBaseURL}/${logoUrl}" class="headerLogo"></div>
+										<span class="headerTitle" id="widgettitle">${widgetHeaderDetails.name}</span>
+										</div>
+										</div>`;
+	document.getElementById('header').innerHTML = headerHtml;
 }
 
 /* Render Config UI */
+//Todo
 
 /* Render Auhtorize UI */
 
-var renderAuthorizeUI = function (extensionManifest, location) {
-	if (!extensionManifest.connectors[0].isAuthorised) {
-		var rootEle = document.getElementById('root');
-		var authoriseUrl = extensionManifest.connectors[0].extensionManifest;
-		rootEle.appendChild('<button onclick="openAuth(authoriseUrl)">Authorize</button>')
-	} else {
-		ZApp.LoadExtension(extensionManifest);
-		ZApp.RenderWidgets(location, {});
-	}
-};
+// var renderAuthorizeUI = function (extensionManifest, location) {
+// 	if (!extensionManifest.connectors[0].isAuthorised) {
+// 		var rootEle = document.getElementById('root');
+// 		var authoriseUrl = extensionManifest.connectors[0].extensionManifest;
+// 		rootEle.appendChild('<button onclick="openAuth(authoriseUrl)">Authorize</button>')
+// 	} else {
+// 		ZApp.LoadExtension(extensionManifest);
+// 		ZApp.RenderWidgets(location, {});
+// 	}
+// };
 
 
-var openAuth = function (url) {
-	let authoriseUrl = url;
-	var regex = new RegExp("^(http|https)://", "i");
-	var match = regex.test(authoriseUrl);
-	if (match) {
-		authoriseUrl = authoriseUrl
-	}
-	var options = "toolbar=no,menubar=no,scrollbars=no,location=no,status=no";
-	window.open(authoriseUrl, 'authoriseWindow_' + widgetId, options);
+// var openAuth = function (url) {
+// 	let authoriseUrl = url;
+// 	var regex = new RegExp("^(http|https)://", "i");
+// 	var match = regex.test(authoriseUrl);
+// 	if (match) {
+// 		authoriseUrl = authoriseUrl
+// 	}
+// 	var options = "toolbar=no,menubar=no,scrollbars=no,location=no,status=no";
+// 	window.open(authoriseUrl, 'authoriseWindow_' + widgetId, options);
 
-	window.addEventListener("messages", function (response) {
-		var dataObj = typeof (response.data) == "object" ? response.data : JSON.parse(response.data);
-		if (dataObj && dataObj.status) {
-			if (!dataObj.hasOwnProperty("authType") || dataObj.authType !== "oauth") {
-				//MObile call to update connector
-			}
-			handleAfterAuthorisation(connector, extnManifest, widget);
-		}
-	});
-};
+// 	window.addEventListener("messages", function (response) {
+// 		var dataObj = typeof (response.data) == "object" ? response.data : JSON.parse(response.data);
+// 		if (dataObj && dataObj.status) {
+// 			if (!dataObj.hasOwnProperty("authType") || dataObj.authType !== "oauth") {
+// 				//MObile call to update connector
+// 			}
+// 			handleAfterAuthorisation(connector, extnManifest, widget);
+// 		}
+// 	});
+// };
 
 /* Respose Handlers */
 
